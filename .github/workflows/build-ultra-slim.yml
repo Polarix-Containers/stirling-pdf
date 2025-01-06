@@ -1,4 +1,4 @@
-name: Build ultra-slim
+name: Build ultra-lite
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/build-ultra-slim.yml'
-      - 'ultra-slim/**'
+      - '.github/workflows/build-ultra-lite.yml'
+      - 'ultra-lite/**'
   schedule:
     # Build the image daily
     - cron: '15 0 * * *'
@@ -15,7 +15,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: polarix-containers/stirling-pdf
-  TAG: ultra-slim
+  TAG: ultra-lite
 
 jobs:
   build:
