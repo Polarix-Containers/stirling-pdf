@@ -70,7 +70,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
           format: template
           template: '@/contrib/sarif.tpl'
           output: trivy-results.sarif
@@ -95,7 +95,7 @@ jobs:
         uses: anchore/scan-action@v6
         id: grype
         with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
           fail-build: false
 
       - name: Upload Grype scan results to GitHub Security tab
