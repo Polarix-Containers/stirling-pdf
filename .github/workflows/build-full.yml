@@ -1,4 +1,4 @@
-name: Build
+name: Build full
 
 on:
   workflow_dispatch:
@@ -6,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/build.yml'
-      - 'latest/**'
+      - '.github/workflows/build-full.yml'
+      - 'full/**'
   schedule:
     # Build the image daily
     - cron: '15 0 * * *'
@@ -15,7 +15,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: polarix-containers/stirling-pdf
-  TAG: latest
+  TAG: full
 
 jobs:
   build:
@@ -48,6 +48,8 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             ${{ env.TAG }}
+            latest-${{ env.TAG }}
+            latest
 
       - name: Build and push Docker image
         id: build-and-push

@@ -1,6 +1,6 @@
 # Stirling-PDF
 
-![Build, scan & push](https://github.com/Polarix-Containers/stirling-pdf/actions/workflows/build.yml/badge.svg)
+![Build, scan & push](https://github.com/Polarix-Containers/stirling-pdf/actions/workflows/build-full.yml/badge.svg)
 ![Build, scan & push](https://github.com/Polarix-Containers/stirling-pdf/actions/workflows/build-ultra-lite.yml/badge.svg)
 ![Build, scan & push](https://github.com/Polarix-Containers/stirling-pdf/actions/workflows/build-fat.yml/badge.svg)
 
