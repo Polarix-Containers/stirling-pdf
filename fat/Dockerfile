@@ -38,11 +38,11 @@ RUN apk -U upgrade \
 
 # Copy necessary files
 
-RUN git clone --branch ${VERSION} https://github.com/Stirling-Tools/Stirling-PDF.git \
+RUN git clone --branch v${VERSION} https://github.com/Stirling-Tools/Stirling-PDF.git \
     && mv Stirling-PDF/scripts /scripts \
     && mv Stirling-PDF/pipeline /pipeline \
-    && mv Stirling-PDF/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/ \
-    && mv Stirling-PDF/app/build/libs/*.jar app.jar
+    && mv Stirling-PDF/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/
+COPY --from=build /app/build/libs/*.jar app.jar
 
 
 RUN --network=none \
