@@ -32,15 +32,18 @@ ARG UID
 ARG GID
 ARG VERSION
 
-# Copy necessary files
-ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:scripts /scripts
-ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:pipeline /pipeline
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/
-COPY --from=build /app/build/libs/*.jar app.jar
-
 RUN apk -U upgrade \
-    && apk add libstdc++ \
+    && apk add git libstdc++ \
     && rm -rf /var/cache/apk/*
+
+# Copy necessary files
+
+RUN git clone --branch ${VERSION} https://github.com/Stirling-Tools/Stirling-PDF.git \
+    && mv Stirling-PDF/scripts /scripts \
+    && mv Stirling-PDF/pipeline /pipeline \
+    && mv Stirling-PDF/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/ \
+    && mv Stirling-PDF/app/build/libs/*.jar app.jar
+
 
 RUN --network=none \
     usermod -u ${UID} stirlingpdfuser \
