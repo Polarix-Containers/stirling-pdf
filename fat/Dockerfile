@@ -41,6 +41,7 @@ RUN apk -U upgrade \
 RUN git clone --branch v${VERSION} https://github.com/Stirling-Tools/Stirling-PDF.git \
     && mv Stirling-PDF/scripts /scripts \
     && mv Stirling-PDF/pipeline /pipeline \
+    && mkdir -p /usr/share/fonts/opentype/noto/ \
     && mv Stirling-PDF/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/
 COPY --from=build /app/build/libs/*.jar app.jar
 
