@@ -1,5 +1,30 @@
 ARG UID=200013
 ARG GID=200013
+ARG VERSION=0.46.2
+
+# Build the application
+FROM gradle:8.14-jdk21 AS build
+ARG VERSION
+
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/build.gradle .
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/ .
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/gradlew .
+COPY https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:gradle gradle
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/stirling-pdf/build.gradle stirling-pdf/.
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/common/build.gradle common/.
+RUN ./gradlew build -x spotlessApply -x spotlessCheck -x test -x sonarqube || return 0
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the entire project to the working directory
+COPY . .
+
+# Build the application with DISABLE_ADDITIONAL_FEATURES=false
+RUN DISABLE_ADDITIONAL_FEATURES=false \
+    STIRLING_PDF_DESKTOP_UI=false \
+    ./gradlew clean build -x spotlessApply -x spotlessCheck -x test -x sonarqube
+
 
 FROM ghcr.io/stirling-tools/stirling-pdf:latest-fat
 
