@@ -16,7 +16,7 @@ RUN ./gradlew build -x spotlessApply -x spotlessCheck -x test -x sonarqube || re
 WORKDIR /app
 
 # Copy the entire project to the working directory
-COPY . .
+ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION} .
 
 # Build the application with DOCKER_ENABLE_SECURITY=false
 RUN DOCKER_ENABLE_SECURITY=true \
