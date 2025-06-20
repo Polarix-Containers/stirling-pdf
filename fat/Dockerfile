@@ -108,7 +108,7 @@ RUN echo "@main https://dl-cdn.alpinelinux.org/alpine/edge/main" | tee -a /etc/a
     mkdir -p $HOME /configs /logs /customFiles /pipeline/watchedFolders /pipeline/finishedFolders && \
     fc-cache -f -v && \
     chmod +x /scripts/* && \
-    chmod +x /scripts/init.sh &&
+    chmod +x /scripts/init.sh
 
 RUN --network=none \
     addgroup -g ${GID} stirlingpdfgroup \
