@@ -9,7 +9,7 @@ ARG VERSION
 ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/build.gradle .
 ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/ .
 ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/gradlew .
-COPY https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:gradle gradle
+ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:gradle gradle
 ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/stirling-pdf/build.gradle stirling-pdf/.
 ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/common/build.gradle common/.
 RUN ./gradlew build -x spotlessApply -x spotlessCheck -x test -x sonarqube || return 0
@@ -32,6 +32,12 @@ LABEL maintainer="Thien Tran contact@tommytran.io"
 
 ARG UID
 ARG GID
+
+# Copy necessary files
+ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:scripts /scripts
+ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:pipeline /pipeline
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/
+COPY --from=build /app/build/libs/*.jar app.jar
 
 RUN apk -U upgrade \
     && apk add libstdc++ \
