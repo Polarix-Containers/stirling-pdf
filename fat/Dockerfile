@@ -32,6 +32,7 @@ LABEL maintainer="Thien Tran contact@tommytran.io"
 
 ARG UID
 ARG GID
+ARG VERSION
 
 # Copy necessary files
 ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:scripts /scripts
