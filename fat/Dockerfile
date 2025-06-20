@@ -113,7 +113,7 @@ RUN echo "@main https://dl-cdn.alpinelinux.org/alpine/edge/main" | tee -a /etc/a
 RUN --network=none \
     addgroup -g ${GID} stirlingpdfgroup \
     && adduser -u ${UID} --ingroup stirlingpdfgroup --disabled-password --system stirlingpdfuser \
-    && chown -R stirlingpdfuser:stirlingpdfgroup $HOME /scripts /usr/share/fonts/opentype/noto /configs /customFiles /pipeline && \
+    && chown -R stirlingpdfuser:stirlingpdfgroup $HOME /scripts /usr/share/fonts/opentype/noto /configs /customFiles /pipeline \
     && chown stirlingpdfuser:stirlingpdfgroup /app.jar
     
 USER stirlingpdfuser
