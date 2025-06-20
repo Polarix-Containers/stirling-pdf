@@ -10,8 +10,6 @@ ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${V
 ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/settings.gradle .
 ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/gradlew .
 ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:gradle gradle
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/stirling-pdf/build.gradle stirling-pdf/.
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/common/build.gradle common/.
 RUN ./gradlew build -x spotlessApply -x spotlessCheck -x test -x sonarqube || return 0
 
 # Set the working directory
@@ -20,8 +18,8 @@ WORKDIR /app
 # Copy the entire project to the working directory
 COPY . .
 
-# Build the application with DISABLE_ADDITIONAL_FEATURES=false
-RUN DISABLE_ADDITIONAL_FEATURES=false \
+# Build the application with DOCKER_ENABLE_SECURITY=false
+RUN DOCKER_ENABLE_SECURITY=true \
     STIRLING_PDF_DESKTOP_UI=false \
     ./gradlew clean build -x spotlessApply -x spotlessCheck -x test -x sonarqube
 
