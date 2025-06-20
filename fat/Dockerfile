@@ -6,12 +6,12 @@ ARG VERSION=0.46.2
 FROM gradle:8.14-jdk21 AS build
 ARG VERSION
 
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/build.gradle .
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/ .
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/gradlew .
-ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:gradle gradle
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/stirling-pdf/build.gradle stirling-pdf/.
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/common/build.gradle common/.
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/build.gradle .
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/ .
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/gradlew .
+ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:gradle gradle
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/stirling-pdf/build.gradle stirling-pdf/.
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/common/build.gradle common/.
 RUN ./gradlew build -x spotlessApply -x spotlessCheck -x test -x sonarqube || return 0
 
 # Set the working directory
@@ -35,9 +35,9 @@ ARG GID
 ARG VERSION
 
 # Copy necessary files
-ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:scripts /scripts
-ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v{VERSION}:pipeline /pipeline
-ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v{VERSION}/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/
+ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:scripts /scripts
+ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:pipeline /pipeline
+ADD https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/refs/tags/v${VERSION}/src/main/resources/static/fonts/*.ttf /usr/share/fonts/opentype/noto/
 COPY --from=build /app/build/libs/*.jar app.jar
 
 RUN apk -U upgrade \
