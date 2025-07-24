@@ -15,9 +15,9 @@ ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION} .
 RUN rm -rf app/proprietary
 
 # Change A4 to letter
-RUN sed -i 's/PDRectangle pageSize = PDRectangle.A4;/PDRectangle pageSize = PDRectangle.LETTER;/' stirling-pdf/src/main/java/stirling/software/common/util/PdfUtils.java \
-    && sed -i 's/newPage = new PDPage(PDRectangle.A4);/newPage = new PDPage(PDRectangle.LETTER);/' stirling-pdf/src/main/java/stirling/software/common/util/PdfUtils.java \
-    && sed -i 's/PDPage newPage = new PDPage(PDRectangle.A4);/PDPage newPage = new PDPage(PDRectangle.LETTER);/' stirling-pdf/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java
+RUN sed -i 's/PDRectangle pageSize = PDRectangle.A4;/PDRectangle pageSize = PDRectangle.LETTER;/' common/src/main/java/stirling/software/common/util/PdfUtils.java \
+    && sed -i 's/PDPage newPage = new PDPage(PDRectangle.A4);/PDPage newPage = new PDPage(PDRectangle.LETTER);/' stirling-pdf/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java \
+    && sed -i 's/newPage = new PDPage(PDRectangle.A4);/newPage = new PDPage(PDRectangle.LETTER);/' stirling-pdf/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java
 
 RUN DISABLE_ADDITIONAL_FEATURES=true \
     STIRLING_PDF_DESKTOP_UI=false \
