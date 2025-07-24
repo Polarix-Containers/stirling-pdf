@@ -1,6 +1,6 @@
 ARG UID=200013
 ARG GID=200013
-ARG VERSION=1.0.2
+ARG VERSION=1.1.0
 
 # Build the application
 FROM gradle:8.14-jdk21 AS build
@@ -15,9 +15,9 @@ ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION} .
 RUN rm -rf app/proprietary
 
 # Change A4 to letter
-RUN sed -i 's/PDRectangle pageSize = PDRectangle.A4;/PDRectangle pageSize = PDRectangle.LETTER;/' common/src/main/java/stirling/software/common/util/PdfUtils.java \
-    && sed -i 's/PDPage newPage = new PDPage(PDRectangle.A4);/PDPage newPage = new PDPage(PDRectangle.LETTER);/' stirling-pdf/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java \
-    && sed -i 's/newPage = new PDPage(PDRectangle.A4);/newPage = new PDPage(PDRectangle.LETTER);/' stirling-pdf/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java
+RUN sed -i 's/PDRectangle pageSize = PDRectangle.A4;/PDRectangle pageSize = PDRectangle.LETTER;/' app/common/src/main/java/stirling/software/common/util/PdfUtils.java \
+    && sed -i 's/PDPage newPage = new PDPage(PDRectangle.A4);/PDPage newPage = new PDPage(PDRectangle.LETTER);/' app/core/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java \
+    && sed -i 's/newPage = new PDPage(PDRectangle.A4);/newPage = new PDPage(PDRectangle.LETTER);/' app/core/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java
 
 RUN DISABLE_ADDITIONAL_FEATURES=true \
     STIRLING_PDF_DESKTOP_UI=false \
@@ -46,7 +46,7 @@ ENV DISABLE_ADDITIONAL_FEATURES=true \
 RUN mkdir /scripts
 COPY init-without-ocr.sh /scripts
 ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:pipeline /pipeline
-COPY --from=build /install/stirling-pdf/build/libs/*.jar app.jar
+COPY --from=build /install/app/core/build/libs/*.jar app.jar
 
 RUN apk -U upgrade \
     && apk add ca-certificates curl libstdc++ openjdk21-jre tini tzdata \
