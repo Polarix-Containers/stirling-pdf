@@ -41,7 +41,7 @@ ENV DISABLE_ADDITIONAL_FEATURES=true \
 RUN mkdir /scripts
 COPY init-without-ocr.sh /scripts
 ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:pipeline /pipeline
-COPY --from=build /install/stirling-pdf/build/libs/*.jar app.jar
+COPY --from=build /install/app/core/build/libs/*.jar app.jar
 
 RUN apk -U upgrade \
     && apk add ca-certificates curl libstdc++ openjdk21-jre tini tzdata \
