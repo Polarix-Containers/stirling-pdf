@@ -14,6 +14,11 @@ ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION} .
 # Delete proprietary code
 RUN rm -rf app/proprietary
 
+# Change A4 to letter
+RUN sed -i 's/PDRectangle pageSize = PDRectangle.A4;/PDRectangle pageSize = PDRectangle.LETTER;/' app/common/src/main/java/stirling/software/common/util/PdfUtils.java \
+    && sed -i 's/PDPage newPage = new PDPage(PDRectangle.A4);/PDPage newPage = new PDPage(PDRectangle.LETTER);/' app/core/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java \
+    && sed -i 's/newPage = new PDPage(PDRectangle.A4);/newPage = new PDPage(PDRectangle.LETTER);/' app/core/src/main/java/stirling/software/SPDF/controller/api/MultiPageLayoutController.java
+
 RUN DISABLE_ADDITIONAL_FEATURES=true \
     STIRLING_PDF_DESKTOP_UI=false \
     ./gradlew clean build -x spotlessApply -x spotlessCheck -x test -x sonarqube
