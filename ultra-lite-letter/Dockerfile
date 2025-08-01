@@ -39,8 +39,7 @@ ENV DISABLE_ADDITIONAL_FEATURES=true \
     STIRLING_TEMPFILES_DIRECTORY=/tmp/stirling-pdf \
     TMPDIR=/tmp/stirling-pdf \
     TEMP=/tmp/stirling-pdf \
-    TMP=/tmp/stirling-pdf \
-    ENDPOINTS_GROUPS_TO_REMOVE=CLI
+    TMP=/tmp/stirling-pdf
 
 # Copy necessary files
 RUN mkdir /scripts
