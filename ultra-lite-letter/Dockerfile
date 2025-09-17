@@ -1,6 +1,6 @@
 ARG UID=200013
 ARG GID=200013
-ARG VERSION=1.1.0
+ARG VERSION=1.3.2
 
 # Build the application
 FROM gradle:8.14-jdk21 AS build
@@ -44,20 +44,19 @@ ENV DISABLE_ADDITIONAL_FEATURES=true \
 # Copy necessary files
 RUN mkdir /scripts
 COPY init-without-ocr.sh /scripts
-ADD https://github.com/Stirling-Tools/Stirling-PDF.git#v${VERSION}:pipeline /pipeline
 COPY --from=build /install/app/core/build/libs/*.jar app.jar
 
 RUN apk -U upgrade \
     && apk add ca-certificates curl libstdc++ openjdk21-jre tini tzdata \
     && rm -rf /var/cache/apk/* \
-    && mkdir -p /configs /logs /customFiles /usr/share/fonts/opentype/noto \
+    && mkdir -p /configs /logs /customFiles /usr/share/fonts/opentype/noto /tmp/stirling-pdf /pipeline/watchedFolders /pipeline/finishedFolders \
     && chmod +x /scripts/init-without-ocr.sh
 
 RUN --network=none \
     addgroup -g ${GID} stirlingpdfgroup \
     && adduser -u ${UID} --ingroup stirlingpdfgroup --disabled-password --system stirlingpdfuser \
-    && chown -R stirlingpdfuser:stirlingpdfgroup /app.jar /configs /customFiles /logs /pipeline /scripts /usr/share/fonts/opentype/noto \
-    && chmod -R 755 /app.jar /configs /customFiles /logs /pipeline /scripts /usr/share/fonts/opentype/noto
+    && chown -R stirlingpdfuser:stirlingpdfgroup /scripts /pipeline /configs /customFiles /tmp/stirling-pdf \
+    && chmod -R 755 /app.jar /configs /scripts
 
 USER stirlingpdfuser
 
