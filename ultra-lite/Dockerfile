@@ -1,6 +1,6 @@
 ARG UID=200013
 ARG GID=200013
-ARG VERSION=1.3.2
+ARG VERSION=1.5.0
 
 # Build the application
 FROM gradle:8.14-jdk21 AS build
